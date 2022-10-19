@@ -1,13 +1,23 @@
 const form = document.querySelector("#validationForm");
 const btn = document.querySelector("#btn");
 
-const validateText = (id) => {
-  const input = document.querySelector(id);
+const validateFirstName = (id) => {
+  const firstName = document.querySelector(id);
 
-  if (input.value.trim() === "" || input.value.length < 2) {
-    return setError(input);
+  if (firstName.value.trim() === "" || firstName.value.length < 2) {
+    return setError(firstName);
   } else {
-    setSuccess(input);
+    setSuccess(firstName);
+  }
+};
+
+const validateLastName = (id) => {
+  const lastName = document.querySelector(id);
+
+  if (lastName.value.trim() === "" || lastName.value.length < 2) {
+    return setError(lastName);
+  } else {
+    setSuccess(lastName);
   }
 };
 
@@ -28,12 +38,24 @@ const validateEmail = (id) => {
 const validatePassword = (id) => {
   const password = document.querySelector(id);
 
-  if (input.value.trim().length === 0) {
+  if (password.value.trim().length === 0) {
     return setError(password);
-  } else if(input.value.trim() < 6) {
-    setError(password)
+  } else if (password.value.trim() < 6) {
+    setError(password);
   } else {
     return setSuccess(password);
+  }
+};
+
+const validateRepeatedPW = (id) => {
+  const repeatPassword = document.querySelector(id);
+
+  if (repeatPassword.value.trim().length === 0) {
+    return setError(repeatPassword);
+  } else if (repeatPassword !== password) {
+    setError(repeatPassword);
+  } else {
+    setSuccess(repeatPassword);
   }
 };
 
@@ -63,36 +85,72 @@ form.addEventListener("submit", (e) => {
   e.preventDefault();
 
   const errors = [];
-  let i = 0;
-  for (input of e.target) {
-    const inputID = "#" + form[i].id;
-    switch (input.type) {
-      case "text":
-        errors[i] = validateText(inputID);
-        break;
 
-      case "email":
-        errors[i] = validateEmail(inputID);
-        break;
+  for(let i = 0; i < form.length; i++) {
 
-      case "password":
-        errors[i] = validatePassword(inputID);
-        break;
+    const inputId = '#' + form[i].id 
 
-      case "checkbox":
-        errors[i] = validatePassword(inputID);
-
-      default:
-        break;
+    if(form[i].type === 'firstName'){
+      errors[i] = validateFirstName(inputId)
     }
-    i++;
+   else if(form[i].type === 'lastName'){
+      errors[i] = validateLastName(inputId)
+    }
+    else if(form[i].type === 'email'){
+      errors[i] = validateEmail(inputId)
+    }
+   else if(form[i].type === 'password'){
+      errors[i] = validatePassword(inputId)
+    }
+   else if(form[i].type === 'repeatPassword'){
+      errors[i] = validateFirstName(inputId)
+    }
+    else if(form[i].type === 'checkbox'){
+      errors[i] = validateCheck(inputId)
+    }
   }
-  console.log(errors);
 
-  if (errors.includes(false)) {
-    console.log("error");
-    return;
-  } else {
-    console.log("success");
+  console.log(errors)
+
+  if(errors.includes(true)){
+    console.log('Vi har fel i formuläret!')
   }
-});
+  else{
+    console.log('allt är bra')
+  }})
+
+
+
+  // let i = 0;
+  // for (input of e.target) {
+  //   const inputID = "#" + form[i].id;
+  //   switch (inputID.type) {
+  //     case "FirstName":
+  //       errors[i] = validateFirstName(inputID);
+  //       break;
+
+  //     case "LastName":
+  //       errors[i] = validateLastName(inputID);
+  //       break;
+
+  //     case "email":
+  //       errors[i] = validateEmail(inputID);
+  //       break;
+
+  //     case "password":
+  //       errors[i] = validatePassword(inputID);
+  //       break;
+
+  //     case "repeatPassword":
+  //       errors[i] = validateRepeatedPW(inputID);
+  //       break;
+
+  //     case "checkbox":
+  //       errors[i] = validatePassword(inputID);
+
+  //     default:
+  //       break;
+  //   }
+  //   i++;
+  // }
+
