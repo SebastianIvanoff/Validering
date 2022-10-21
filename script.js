@@ -96,66 +96,28 @@ const validateCheck = (input) => {
 form.addEventListener("submit", (e) => {
   e.preventDefault();
 
-  const errors = [];
-  
-  for(let i = 0; i < form.length; i++){
-    const inputId = '#' + form[i].id
+  validateNames(firstName);
+  validateNames(lastName);
+  validateEmail(email);
+  validatePassword(password);
+  validateRepeatedPW(repeatPassword);
+  validateCheck(checkbox);
 
-    if(form[i].type === 'text'){
-      errors[i] = validateNames(inputId)
-    }
-    else if (form[i].type === 'email'){
-      errors[i] = validateEmail(inputId)
-    }
-    else if (form[i].type === 'password'){
-      errors[i] = validatePassword(inputId)
-    }
-
-    else if (form[i].type === 'repeatPassword'){
-      errors[i] = validatePassword(inputId)
-    }
-
-    else if (form[i].type === 'checkbox'){
-      errors[i] = validateCheck(inputId)
-    }
-
-  }
-
-  console.log(errors);
-
-  if (errors.includes(false)) {
-    console.log("Vi har fel i formuläret!");
-    return
-  } else {
-    console.log("allt är bra");
+  if (
+    validateNames(firstName) &&
+    validateNames(lastName) &&
+    validateEmail(email) &&
+    validatePassword(password) &&
+    validateRepeatedPW(repeatPassword) &&
+    validateCheck(checkbox)
+  ) {
+    const user = {
+      firstName: firstName.value.trim(),
+      lastName: lastName.value.trim(),
+      email: email.value.trim(),
+      password: password.value.trim(),
+      repeatPassword: repeatPassword.value.trim(),
+    };
+    console.log(user);
   }
 });
-
-// form.addEventListener("submit", (e) => {
-//   e.preventDefault();
-
-//   validateNames(firstName);
-//   validateNames(lastName);
-//   validateEmail(email);
-//   validatePassword(password);
-//   validateRepeatedPW(repeatPassword);
-//   validateCheck(checkbox);
-
-//   if (
-//     validateNames(firstName) &&
-//     validateNames(lastName) &&
-//     validateEmail(email) &&
-//     validatePassword(password) &&
-//     validateRepeatedPW(repeatPassword) &&
-//     validateCheck(checkbox)
-//   ) {
-//     const user = {
-//       firstName: firstName.value.trim(),
-//       lastName: lastName.value.trim(),
-//       email: email.value.trim(),
-//       password: password.value.trim(),
-//       repeatPassword: repeatPassword.value.trim(),
-//     };
-//     console.log(user);
-//   }
-// });
